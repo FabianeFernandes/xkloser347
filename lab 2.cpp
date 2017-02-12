@@ -108,12 +108,36 @@ char *stringNCopy(char *stringArrayFromMain)
 	//delete []arrayPointer;  // free up the memory again
 }
 
-void stringAdd()
+//stringAdd function:
+//Duplicates string concatenation (strcat) function
+char* stringAdd(char *firstWord, const char *secondWord)
 {
-	cout << "stringAdd function \n";
+    while (*firstWord!= '\0')
+        firstWord++;
+    
+    while (*secondWord != '\0')
+        *firstWord++ = *secondWord++;
+    
+    return firstWord;
+
 }
 
-void stringCompare()
+//stringCompare function that mimics the functionality of strcmp function
+
+int stringCompare (const char *firstWord, const char *secondWord)
 {
-	cout << "stringCompare function \n";
+    while( (*firstWord!='\0') && (*firstWord==*secondWord) ){
+        firstWord++;
+        secondWord++;
+    }
+    
+    if ((*firstWord - *secondWord) > 0)
+        return 1;
+    
+    else if ((*firstWord - *secondWord) == 0)
+        return 0;
+    
+    else
+        return -1;
+    
 }
