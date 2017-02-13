@@ -13,7 +13,7 @@ Prompt user to imput arguments to perform operations.
 Display results of operation to user.
 Prompt if user wants to return to menu for new operation or exit.
 If user requests new operation, return him back to menu.
-Else, exists the program.
+Else, exits the program.
 */
 
 
@@ -32,15 +32,19 @@ int main()
 {
 	// C-string arrays for user input
 	const int LENGTH = 21;
-	char str1[55] = {};         //double length, so str1 can hold str1 + str2
-	char str2[LENGTH] = {};  //  clifford - I was having errors here with the output, so I intialized both arrays filled with \0
+	char str1[55] = "";         //double length, so str1 can hold str1 + str2
+	char str2[LENGTH] = "";  //  clifford - I was having errors here with the output, so I intialized both arrays filled with \0
 							 //  also added a few extra to the array sizes to pad for some unforseen problems. 
 
 	char choice = '0';     //to hold the menu choice from 1-4
-	int stringNCopyNumber = 0;
-	int count = 0;  //  loop counter
+	//Fabiane: by changing the choice variable to char (instead of int), some things didn't work that well when I tested it
+	//Example: If I typed 33, it accepted it as menu option 3, when it should have returned the default option
+	//You must have had a good reason to change it to char, but if not, could we make this an int again?
+	
+	int stringNCopyNumber = 0; //Fabiane: this variable isn't used in this scope (DELETE)
+	int count = 0;  //  loop counter //Fabiane: this variable isn't used in this scope (DELETE)
 
-						// To display the menu and get a choice from user
+	// To display the menu and get a choice from user
 	cout << "Enter the number that corresponds to the string manipulation to be performed:\n\n"
 		<< "    1. String lenght.\n"
 		<< "    2. String copy\n"
@@ -68,9 +72,6 @@ int main()
 
 		case '2':  //  stringNCopy function
 		{
-			/*FF: This function takes 3 parameters (2 string pointers + 1 int) for the amount of
-			characters to be copied from source to destination. I used single input string
-			because your function only took a single input and I wanted to test the menu. */
 			char *stringNCopyPointer = nullptr;
 			count = 0;
 			stringNCopyNumber = 0;
@@ -80,11 +81,12 @@ int main()
 			//stringNCopy(str1);
 			stringNCopyPointer = stringNCopy(str1, str2, stringNCopyNumber);
 			cout << "stringNCopy returns: ";  // clifford - added this is in
+			
 			while (*(stringNCopyPointer + count) != 0)
 			{
 				cout << *(stringNCopyPointer + count);
 				count++;
-			}
+			} //Fabiane: Is this loop really needed? For me worked with the C-string name alone.
 			cout << endl;
 			break;
 		}
@@ -92,14 +94,16 @@ int main()
 		case '3':  //  stringAdd function
 		{
 			inputDoubleString(str1, str2, LENGTH);   // double word input
-			stringAdd(str1, str2);                   // returns concatenated words
-			cout << "Here are your concatenated words: ";
+			char *concatenatedWords = nullptr;
+			concatenatedWords = stringAdd(str1, str2);         // returns concatenated words
+			cout << "stringAdd returns: ";
+			
 			count = 0;
-			while (*(str1 + count) != '\0')  // clifford - added this is in
+			while (*(concatenatedWords + count) != '\0')  // clifford - added this is in
 			{
-				cout << *(str1 + count);
+				cout << *(concatenatedWords + count);
 				count++;
-			}
+			} //Fabiane: Same as in previous case: is this loop really needed? Worked for me without it.
 			cout << endl;
 			break;
 		}
@@ -124,7 +128,7 @@ int main()
 		{
 			cout << choice << " is not a choice in this menu.\n" << "You must enter 1, 2, 3 or 4! \n";
 			cin.clear();
-			cin.ignore(10000, '\n');
+			cin.ignore(10000, '\n');  //Fabiane: had to remove this line completele for keyboar input to work correctly
 		}
 
 
@@ -132,7 +136,7 @@ int main()
 
 		cout << "\nManipulate another string? [Y/N]";
 		cin.clear();
-		cin.ignore(10000, '\n');
+		cin.ignore(10000, '\n'); //Fabiane: had to remove this line same as above
 		cin >> again;
 		cin.clear();
 
@@ -181,10 +185,9 @@ char *stringNCopy(char *destinationCharArray, char *sourceCharArray, int stringN
 {
 	//  I will add in the pyseudo code later - clifford
 	//  but this function now does what it is supposed to do
+	// Fabiane: Yes, I tested it. It's working beautifully! :)
 
 	int count = 0;  //  counter
-	const int SIZE = stringNCopyNumber;
-
 	for (count = 0; count < stringNCopyNumber && (*(sourceCharArray + count) != '\0'); count++)
 	{
 		*(destinationCharArray + count) = *(sourceCharArray + count);
@@ -200,6 +203,7 @@ Acceppts two pointers to C-strings as arguments and copies the contents
 of secondWord to firstWord.*/
 char* stringAdd(char *firstWord, const char *secondWord)
 {
+	char *returnValue = firstWord;            
 	int count = 0;
 	while (*firstWord != '\0')
 	{
@@ -214,7 +218,7 @@ char* stringAdd(char *firstWord, const char *secondWord)
 		count++;
 	}
 	*(firstWord + count) = '\0';  //  add a \0 at the end
-	return firstWord;			// returns pointer to destination word
+	return returnValue;			// returns pointer to destination word
 
 }
 
