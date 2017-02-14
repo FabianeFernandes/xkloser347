@@ -134,6 +134,8 @@ int main()
 		cin.clear();
 
 	} while (again == 'y' || again == 'Y');
+	
+	system("pause");
 
 	return 0;
 }
